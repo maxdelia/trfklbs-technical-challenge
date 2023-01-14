@@ -1,0 +1,41 @@
+.nav {
+  text-align: right;
+
+  .avatar {
+    color: rgb(var(--foreground-rgb)) !important;
+  }
+}
+
+.main {
+  flex: 1;
+  max-width: var(--max-width);
+  text-align: center;
+
+  h1 {
+    margin-bottom: 1.25rem;
+    font-size: 3.125rem;
+    font-weight: 700;
+  }
+
+  h2 {
+    color: rgba(var(--grey-2-rgba));
+    font-size: 1.25rem;
+  }
+}
+
+.footer {
+  text-align: center;
+
+  p {
+    color: rgba(var(--grey-1-rgba));
+    font-size: 0.6875rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav {
+    .avatar {
+      color: rgb(var(--foreground-rgb)) !important;
+    }
+  }
+}
