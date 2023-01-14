@@ -1,6 +1,5 @@
-import Image from "next/image"
-
 import CommonHead from "@/components/CommonHead"
+import NavbarAuth from "@/components/NavbarAuth"
 import styles from "@/styles/Home.module.scss"
 
 export default function Home() {
@@ -9,16 +8,7 @@ export default function Home() {
       <CommonHead />
       <div className="container">
         <nav className={styles.nav} role="navigation" aria-label="main navigation">
-          <div>
-            <Image
-              src="/images/github.svg"
-              alt="GitHub Logo"
-              className={styles.avatar}
-              height={44}
-              width={44}
-              priority
-            />
-          </div>
+          <NavbarAuth />
         </nav>
         <main className={styles.main}>
           <h1>GitHub Indicators Explorer</h1>

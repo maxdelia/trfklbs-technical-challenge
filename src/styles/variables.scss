@@ -5,6 +5,7 @@
   "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Arial", sans-serif;
   --font-rubik: 'Rubik', sans-serif;
 
+  --black-rgb: 0, 0, 0;
   --background-rgb: 251, 251, 251;
   --grey-1-rgba: 151, 151, 151, 1;
   --grey-2-rgba: 140, 140, 140, 1;
@@ -15,6 +16,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --black-rgb: 255, 255, 255;
     --background-rgb: 18, 18, 18;
     --grey-1-rgba: 104, 104, 104, 1;
     --grey-2-rgba: 115, 115, 115, 1;
