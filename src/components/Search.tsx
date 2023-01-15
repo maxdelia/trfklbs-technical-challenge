@@ -23,6 +23,7 @@ const Search: FunctionComponent<Props> = ({ staticRepositories }) => {
   useEffect(() => {
     if (debouncedSearchQuery) {
       setIsLoading(true)
+      if (staticRepositories) setRepositories(staticRepositories)
       setTimeout(() => {
         console.log(debouncedSearchQuery)
         if (staticRepositories) setRepositories(staticRepositories)
@@ -44,7 +45,9 @@ const Search: FunctionComponent<Props> = ({ staticRepositories }) => {
       />
       <div className={styles.results}>
         {repositories.length
-          ? repositories.map((repository) => <RepositoryCard key={repository.id} repository={repository} />)
+          ? repositories.map((repository) => (
+              <RepositoryCard key={repository.id} isLoading={isLoading} repository={repository} />
+            ))
           : undefined}
       </div>
       {hasMore && !isLoading ? (

@@ -1,3 +1,24 @@
+@keyframes placeHolderAnimation{
+  0%{
+      background-position: -468px 0
+  }
+  100%{
+      background-position: 468px 0
+  }
+}
+
+@mixin animatedBackground {
+  animation-duration: 1.25s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderAnimation;
+  animation-timing-function: linear;
+  background: rgb(var(--border-rgb));
+  background: linear-gradient(to right, #eeeeee 10%, #dddddd 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+  position: relative;
+}
+
 .repositoryCard {
   display: flex;
   align-items: stretch;
@@ -24,6 +45,14 @@
       border-radius: 1.375rem;
     }
 
+    .avatarPh {
+      @include animatedBackground;
+      height: 44px;
+      width: 44px;
+      margin-right: 0.875rem;
+      border-radius: 22px;
+    }
+
     .details {
       flex: 1;
       overflow: hidden;
@@ -37,6 +66,13 @@
         font-weight: 700;
       }
 
+      .namePh {
+        @include animatedBackground;
+        height: 1.0625rem;
+        width: 6rem;
+        margin-bottom: 0.3125rem;
+      }
+
       .description {
         overflow: hidden;
         text-overflow: ellipsis;
@@ -44,6 +80,12 @@
         -webkit-line-clamp: 1;
                 line-clamp: 1;
         -webkit-box-orient: vertical;
+      }
+
+      .descriptionPh {
+        @include animatedBackground;
+        height: 1.0625rem;
+        width: 16rem;
       }
     }
   }
