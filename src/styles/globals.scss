@@ -24,6 +24,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  color: rgb(var(--primary-rgb));
+  text-decoration: none;
+
+  &:active,
+  &:focus,
+  &:focus-visible,
+  &:focus-within,
+  &:hover,
+  &:target {
+    color: rgb(var(--primary-dark-rgb));
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;

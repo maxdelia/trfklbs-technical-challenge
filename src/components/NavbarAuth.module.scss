@@ -22,3 +22,11 @@
     }
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .auth {
+    .avatar {
+      filter: invert(1);
+    }
+  }
+}
