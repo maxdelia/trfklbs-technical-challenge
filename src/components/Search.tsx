@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { FunctionComponent } from "react"
+import { FunctionComponent, useState } from "react"
 
 import styles from "@/components/Search.module.scss"
 import Repository from "@/entities/Repository"
@@ -10,6 +10,7 @@ type Props = {
 }
 
 const Search: FunctionComponent<Props> = ({ staticRepositories }) => {
+  const [hasMore, setHasMore] = useState(true)
   const repositories = staticRepositories || []
 
   const getRepositoryCard = (repository: Repository) => {
@@ -33,16 +34,12 @@ const Search: FunctionComponent<Props> = ({ staticRepositories }) => {
     <div className={styles.search}>
       <h3>Select a repository</h3>
       <input name="query" placeholder="Search…" type="search" />
-      <div className={styles.results}>
-        {repositories.length ? (
-          <>
-            {repositories.map(getRepositoryCard)}
-            <div className={styles.more}>
-              <button type="button">Load more</button>
-            </div>
-          </>
-        ) : undefined}
-      </div>
+      <div className={styles.results}>{repositories.length ? repositories.map(getRepositoryCard) : undefined}</div>
+      {hasMore ? (
+        <div className={styles.more}>
+          <button type="button">Load more</button>
+        </div>
+      ) : undefined}
     </div>
   )
 }

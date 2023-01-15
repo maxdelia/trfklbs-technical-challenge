@@ -31,6 +31,8 @@
   }
 
   .results {
+    margin-bottom: 1.875rem;
+
     .card {
       display: flex;
       align-items: stretch;
@@ -93,10 +95,10 @@
         }
       }
     }
+  }
 
-    .more {
-      text-align: center;
-    }
+  .more {
+    text-align: center;
   }
 }
 
