@@ -1,11 +1,4 @@
-.nav {
-  margin-bottom: 3rem;
-}
-
-.main {
-  flex: 1;
-  max-width: var(--max-width);
-
+.home {
   h1 {
     margin-bottom: 1.25rem;
     font-size: 3.125rem;
@@ -21,23 +14,9 @@
   }
 }
 
-.footer {
-  text-align: center;
-
-  p {
-    margin-bottom: 1.25rem;
-    color: rgba(var(--grey-1-rgba));
-    font-size: 0.6875rem;
-  }
-}
-
 // Mobile, tablet and small desktop */
 @media (max-width: 1215px) {
-  .main {
-    margin-bottom: 3rem;
-
-    h2 {
+  .home h2 {
       margin-bottom: 3rem;
-    }
   }
 }

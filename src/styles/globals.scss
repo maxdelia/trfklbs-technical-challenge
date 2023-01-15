@@ -38,13 +38,6 @@ a {
   }
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 1.875em 1.875em 0 1.875em;
-}
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

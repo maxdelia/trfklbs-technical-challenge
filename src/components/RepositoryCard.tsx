@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { FunctionComponent } from "react"
+import { useRouter } from "next/router"
 
 import Repository from "@/entities/Repository"
 import styles from "@/components/RepositoryCard.module.scss"
@@ -11,8 +12,10 @@ type Props = {
 }
 
 const RepositoryCard: FunctionComponent<Props> = ({ isLoading, repository }) => {
+  const router = useRouter()
+
   return (
-    <div className={styles.repositoryCard} key={repository.id}>
+    <div className={styles.repositoryCard} key={repository.id} onClick={() => router.push(`/stats/${repository.id}`)}>
       <div className={styles.repository}>
         {isLoading ? (
           <div className={styles.avatarPh}></div>
@@ -29,7 +32,7 @@ const RepositoryCard: FunctionComponent<Props> = ({ isLoading, repository }) => 
         </div>
       </div>
       <div className={styles.select}>
-        <Link href={`/stats/${repository.name}`}>select</Link>
+        <Link href={`/stats/${repository.id}`}>select</Link>
       </div>
     </div>
   )
