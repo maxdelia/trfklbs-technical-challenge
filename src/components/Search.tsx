@@ -1,9 +1,8 @@
-import Image from "next/image"
-import Link from "next/link"
 import { FunctionComponent, useEffect, useRef, useState } from "react"
 
 import LoadMore from "@/components/LoadMore"
 import Repository from "@/entities/Repository"
+import RepositoryCard from "@/components/RepositoryCard"
 import styles from "@/components/Search.module.scss"
 import useDebounce from "@/hooks/useDebounce"
 
@@ -20,23 +19,6 @@ const Search: FunctionComponent<Props> = ({ staticRepositories }) => {
   const [searchQuery, setSearchQuery] = useState<string>("")
 
   const debouncedSearchQuery: string = useDebounce<string>(searchQuery, 300)
-
-  const getRepositoryCard = (repository: Repository) => {
-    return (
-      <div className={styles.card} key={repository.id}>
-        <div className={styles.repository}>
-          <Image src={repository.avatarUrl} alt="" className={styles.avatar} height={44} width={44} priority />
-          <div className={styles.details}>
-            <span className={styles.name}>{repository.name}</span>
-            <span className={styles.description}>{repository.description}</span>
-          </div>
-        </div>
-        <div className={styles.select}>
-          <Link href={`/stats/${repository.name}`}>select</Link>
-        </div>
-      </div>
-    )
-  }
 
   useEffect(() => {
     if (debouncedSearchQuery) {
@@ -60,7 +42,11 @@ const Search: FunctionComponent<Props> = ({ staticRepositories }) => {
         placeholder="Search…"
         type="search"
       />
-      <div className={styles.results}>{repositories.length ? repositories.map(getRepositoryCard) : undefined}</div>
+      <div className={styles.results}>
+        {repositories.length
+          ? repositories.map((repository) => <RepositoryCard key={repository.id} repository={repository} />)
+          : undefined}
+      </div>
       {hasMore && !isLoading ? (
         <div className={styles.more}>
           <LoadMore
