@@ -25,6 +25,7 @@
   text-align: center;
 
   p {
+    margin-bottom: 1.25rem;
     color: rgba(var(--grey-1-rgba));
     font-size: 0.6875rem;
   }
@@ -34,5 +35,9 @@
 @media (max-width: 1215px) {
   .main {
     margin-bottom: 3rem;
+
+    h2 {
+      margin-bottom: 3rem;
+    }
   }
 }
