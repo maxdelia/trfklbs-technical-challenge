@@ -36,7 +36,7 @@ const RepositoryCard: FunctionComponent<Props> = ({ isLoading, repository }) => 
         </div>
       </div>
       <div className={styles.select}>
-        <Link href={`/repositories/${repository.name}/stats`}>select</Link>
+        {repository.name ? <Link href={`/repositories/${repository.name}/stats`}>select</Link> : undefined}
       </div>
     </div>
   )
