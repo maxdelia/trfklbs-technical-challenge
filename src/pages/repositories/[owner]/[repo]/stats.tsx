@@ -103,7 +103,7 @@ const StatsPage: NextPage<StatsPageProps> = ({ repository }) => {
 
   return (
     <>
-      <CommonHead />
+      <CommonHead title={repository.name} description={repository.description} />
       <Layout>
         <div className={styles.stats}>
           <div className={styles.goBack}>
