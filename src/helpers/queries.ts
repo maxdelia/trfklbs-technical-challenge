@@ -4,8 +4,8 @@ import Repository from "@/entities/Repository"
 import { getAsync } from "@/helpers/network"
 
 export class GenericQueryError extends Error {
-  constructor() {
-    super("There was an error processing your request. Please try again.")
+  constructor(message?: string) {
+    super(message || "There was an error processing your request. Please try again.")
   }
 }
 
@@ -21,11 +21,12 @@ export const searchAsync = async ({ query, page }: { query: string; page?: numbe
   try {
     const res = await getAsync(url)
     if (!res.ok) {
+      console.error(`Response is not ok, status code ${res.status}`)
       return Promise.reject(new GenericQueryError())
     }
-    const { items, has_more: hasMore } = await res.json()
-    return Promise.resolve({ items, hasMore })
-  } catch (err) {
-    return Promise.reject(new GenericQueryError())
+    const resBody = await res.json()
+    return Promise.resolve(resBody)
+  } catch (err: any) {
+    return Promise.reject(new GenericQueryError(err.message))
   }
 }

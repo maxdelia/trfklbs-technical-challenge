@@ -11,7 +11,7 @@ import { GenericQueryError, searchAsync, SearchResult } from "@/helpers/queries"
 const Search: FunctionComponent = () => {
   const searchRef = useRef<null | HTMLDivElement>(null)
 
-  const [hasMore, setHasMore] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [page, setPage] = useState(1)
   const [query, setQuery] = useState("user:traefik")

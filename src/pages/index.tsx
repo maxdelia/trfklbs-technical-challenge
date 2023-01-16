@@ -1,12 +1,13 @@
 import type { NextPage } from "next"
 import { GetStaticProps } from "next"
+import { Octokit } from "octokit"
 import { dehydrate, QueryClient, useQuery } from "react-query"
 
 import CommonHead from "@/components/CommonHead"
 import Layout from "@/components/Layout"
 import Search from "@/components/Search"
 import styles from "@/styles/Home.module.scss"
-import { searchAsync } from "@/helpers/queries"
+import { fromApi } from "@/adapters/repositoryAdapter"
 
 const HomePage: NextPage = () => {
   return (
@@ -24,10 +25,21 @@ const HomePage: NextPage = () => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+  const octokit = new Octokit()
   const queryClient = new QueryClient()
 
   const searchPayload = { query: "user:traefik", page: 1 }
-  await queryClient.prefetchQuery(["search", searchPayload], () => searchAsync(searchPayload))
+  await queryClient.prefetchQuery(["search", searchPayload], async () => {
+    const {
+      data: { items, total_count },
+    } = await octokit.rest.search.repos({
+      q: searchPayload.query,
+      sort: "stars",
+      per_page: 3,
+      page: searchPayload.page,
+    })
+    return Promise.resolve({ items: items.map(fromApi), hasMore: total_count > 3 })
+  })
 
   return {
     props: {
