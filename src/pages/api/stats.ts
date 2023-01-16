@@ -37,18 +37,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const weeks = 10
     const allCommitsPartial = allCommits.reverse().slice(0, weeks)
     const ownerCommitsPartial = ownerCommits.reverse().slice(0, weeks)
-    const items: StatsDatum[] = allCommitsPartial.map((value: number, index: number) => {
-      return {
-        date: format(subWeeks(now, index), "yy-MM-dd"),
-        allCommits: value,
-        ownerCommits: ownerCommitsPartial[index],
-        openIssues: openIssues.filter(({ created_at }: { created_at: string }) => {
-          const lowest = subWeeks(now, index + 1)
-          const highest = subWeeks(now, index)
-          return isAfter(new Date(created_at), lowest) && isBefore(new Date(created_at), highest)
-        }).length,
-      }
-    })
+    const items: StatsDatum[] = allCommitsPartial
+      .map((value: number, index: number) => {
+        return {
+          date: format(subWeeks(now, index), "yy-MM-dd"),
+          allCommits: value,
+          ownerCommits: ownerCommitsPartial[index],
+          openIssues: openIssues.filter(({ created_at }: { created_at: string }) => {
+            const lowest = subWeeks(now, index + 1)
+            const highest = subWeeks(now, index)
+            return isAfter(new Date(created_at), lowest) && isBefore(new Date(created_at), highest)
+          }).length,
+        }
+      })
+      .reverse()
     res.status(200).json({ items })
   } catch (err: any) {
     res.status(500).json({ message: err.message })
