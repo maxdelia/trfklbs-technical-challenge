@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [v1.1.0](https://github.com/maxdelia/trfklbs-technical-challenge/compare/v1.0.0...v1.1.0) (2023-01-16)
+
+### Bug Fixes
+
+* set a max width for the page layout ([cda84b8](https://github.com/maxdelia/trfklbs-technical-challenge/commit/cda84b8167c329832ef7799151fbb6e7c711babc))
+* **stats:** fix the bottom margin of the chart options button to improve small devices support ([9b10ab9](https://github.com/maxdelia/trfklbs-technical-challenge/commit/9b10ab905ebd3031d247e287685ef4c79f09e854))
+
+### Features
+
+* **stats:** add SEO title and description based on the project currently shown ([50d91be](https://github.com/maxdelia/trfklbs-technical-challenge/commit/50d91be29687caf4253e9d50c7a1b36179eb17bd))
 
 ## [v1.0.0](https://github.com/maxdelia/trfklbs-technical-challenge/compare/063697dbeeb5f336a2f28a3e62e187797ce2b7ec...v1.0.0) (2023-01-16)
 
