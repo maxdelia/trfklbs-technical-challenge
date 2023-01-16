@@ -40,7 +40,7 @@
 
   .chart {
     height: 32.875rem;
-    padding: 5.375rem 6rem;
+    padding: 5.375em 6em;
     border: 1px solid rgba(var(--border-rgb));
     border-radius: 1rem;
   }
@@ -48,7 +48,7 @@
 
 // Mobile, tablet and small desktop */
 @media (max-width: 1215px) {
-  .home h2 {
-      margin-bottom: 3rem;
+  .stats .chart {
+    padding: 1em;
   }
 }

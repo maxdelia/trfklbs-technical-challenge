@@ -5,22 +5,23 @@ import { CartesianGrid, LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YA
 import { GetServerSideProps } from "next"
 import { Octokit } from "octokit"
 import { ParsedUrlQuery } from "querystring"
+import { useEffect, useState } from "react"
+import { useQuery } from "react-query"
 import { useRouter } from "next/router"
-import { useState } from "react"
 
+import BigChip from "@/components/BigChip"
 import CommonHead from "@/components/CommonHead"
 import Layout from "@/components/Layout"
 import Repository from "@/entities/Repository"
-import RepositoryStats from "@/entities/RepositoryStats"
+import StatsDatum from "@/entities/StatsDatum"
 import styles from "./stats.module.scss"
-import BigChip from "@/components/BigChip"
+import { GenericQueryError, StatsResult, statsAsync } from "@/helpers/queries"
 
 type StatsPageProps = {
   repository: Repository
-  stats: Partial<RepositoryStats>
 }
 
-const StatsPage: NextPage<StatsPageProps> = ({ repository, stats }) => {
+const StatsPage: NextPage<StatsPageProps> = ({ repository }) => {
   const availableMetrics = ["openIssues", "collaborators"]
   const metricToColor: Record<string, string> = {
     collaborators: "rgb(var(--pink-rgb))",
@@ -32,6 +33,17 @@ const StatsPage: NextPage<StatsPageProps> = ({ repository, stats }) => {
   }
 
   const router = useRouter()
+  const [ownerRepo, setOwnerRepo] = useState(repository.name.split("/"))
+  const [chartData, setChartData] = useState<StatsDatum[]>([])
+
+  const {
+    data: queryData,
+    error: queryError,
+    status: queryStatus,
+  } = useQuery<StatsResult, GenericQueryError>(["stats", { owner: ownerRepo[0], repo: ownerRepo[1] }], () =>
+    statsAsync({ owner: ownerRepo[0], repo: ownerRepo[1] })
+  )
+
   const [metrics, setMetrics] = useState(
     typeof router.query.metrics !== "undefined"
       ? router.query.metrics
@@ -41,15 +53,13 @@ const StatsPage: NextPage<StatsPageProps> = ({ repository, stats }) => {
       : ["openIssues"]
   )
 
-  const data = [
-    { name: "Page A", openIssues: 4000, collaborators: 2400 },
-    { name: "Page B", openIssues: 3000, collaborators: 1398 },
-    { name: "Page C", openIssues: 2000, collaborators: 9800 },
-    { name: "Page D", openIssues: 2780, collaborators: 3908 },
-    { name: "Page E", openIssues: 1890, collaborators: 4800 },
-    { name: "Page F", openIssues: 2390, collaborators: 3800 },
-    { name: "Page G", openIssues: 3490, collaborators: 4300 },
-  ]
+  useEffect(() => {
+    if (queryData) setChartData(queryData.items)
+  }, [queryData])
+
+  useEffect(() => {
+    setOwnerRepo(repository.name.split("/"))
+  }, [repository])
 
   const getChartLines = () => {
     return metrics.map((key) => (
@@ -97,10 +107,10 @@ const StatsPage: NextPage<StatsPageProps> = ({ repository, stats }) => {
           </div>
           <div className={styles.chart}>
             <ResponsiveContainer>
-              <LineChart data={data}>
+              <LineChart data={chartData}>
                 {getChartLines()}
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip />
               </LineChart>
@@ -136,9 +146,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     id,
     name: `${owner}/${repo}`,
   }
-  const stats: Partial<RepositoryStats> = {}
-
-  return { props: { repository, stats } }
+  return { props: { repository } }
 }
 
 export default StatsPage
