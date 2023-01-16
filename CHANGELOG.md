@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.1.1](https://github.com/maxdelia/trfklbs-technical-challenge/compare/v1.1.0...v1.1.1) (2023-01-16)
+
+### Bug Fixes
+
+* **stats:** wrong data coming from GET /api/stats ([e92f876](https://github.com/maxdelia/trfklbs-technical-challenge/commit/e92f876a3d6a864234a59b1c2aa08814df6f1872))
+
 ## [v1.1.0](https://github.com/maxdelia/trfklbs-technical-challenge/compare/v1.0.0...v1.1.0) (2023-01-16)
 
 ### Bug Fixes
