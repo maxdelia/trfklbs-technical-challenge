@@ -6,7 +6,7 @@ import { dehydrate, QueryClient, useQuery } from "react-query"
 import CommonHead from "@/components/CommonHead"
 import Layout from "@/components/Layout"
 import Search from "@/components/Search"
-import styles from "@/styles/Home.module.scss"
+import styles from "./index.module.scss"
 import { fromApi } from "@/adapters/repositoryAdapter"
 
 const HomePage: NextPage = () => {

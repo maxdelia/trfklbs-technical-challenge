@@ -1,0 +1,38 @@
+.stats {
+
+  .goBack {
+    margin-bottom: 1.125rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .title {
+    display: flex;
+    margin-bottom: 1.375rem;
+
+    .avatar {
+      margin-right: 1.125rem;
+      border: 1px solid rgba(var(--border-rgb));
+      border-radius: 1rem;
+    }
+
+    h1 {
+      font-size: 3.125rem;
+      font-weight: 700;
+    }
+  }
+
+  h2 {
+    margin-bottom: 2.5rem;
+    color: rgba(var(--grey-2-rgba));
+    font-size: 1.25rem;
+    font-weight: 400;
+  }
+}
+
+// Mobile, tablet and small desktop */
+@media (max-width: 1215px) {
+  .home h2 {
+      margin-bottom: 3rem;
+  }
+}

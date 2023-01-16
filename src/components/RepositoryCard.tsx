@@ -15,7 +15,11 @@ const RepositoryCard: FunctionComponent<Props> = ({ isLoading, repository }) => 
   const router = useRouter()
 
   return (
-    <div className={styles.repositoryCard} key={repository.id} onClick={() => router.push(`/stats/${repository.id}`)}>
+    <div
+      className={styles.repositoryCard}
+      key={repository.id}
+      onClick={() => router.push(`/repositories/${repository.name}/stats`)}
+    >
       <div className={styles.repository}>
         {isLoading ? (
           <div className={styles.avatarPh}></div>
@@ -32,7 +36,7 @@ const RepositoryCard: FunctionComponent<Props> = ({ isLoading, repository }) => 
         </div>
       </div>
       <div className={styles.select}>
-        <Link href={`/stats/${repository.id}`}>select</Link>
+        <Link href={`/repositories/${repository.name}/stats`}>select</Link>
       </div>
     </div>
   )
