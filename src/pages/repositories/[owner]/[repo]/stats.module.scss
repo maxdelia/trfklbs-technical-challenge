@@ -8,6 +8,7 @@
 
   .title {
     display: flex;
+    overflow: hidden;
     margin-bottom: 1.375rem;
 
     .avatar {
@@ -27,6 +28,13 @@
     color: rgba(var(--grey-2-rgba));
     font-size: 1.25rem;
     font-weight: 400;
+  }
+
+  .chart {
+    height: 32.875rem;
+    padding: 5.375rem 6rem;
+    border: 1px solid rgba(var(--border-rgb));
+    border-radius: 1rem;
   }
 }
 
