@@ -23,13 +23,15 @@ type StatsPageProps = {
 }
 
 const StatsPage: NextPage<StatsPageProps> = ({ repository }) => {
-  const availableMetrics = ["openIssues", "collaborators"]
+  const availableMetrics = ["openIssues", "allCommits", "ownerCommits"]
   const metricToColor: Record<string, string> = {
-    collaborators: "rgb(var(--pink-rgb))",
+    allCommits: "rgb(var(--pink-rgb))",
+    ownerCommits: "rgb(var(--purple-rgb))",
     openIssues: "rgb(var(--lavender-rgb))",
   }
   const metricToLabel: Record<string, string> = {
-    collaborators: "Collaborators",
+    allCommits: "All commits",
+    ownerCommits: "Owner's commits",
     openIssues: "Open issues",
   }
 
@@ -51,7 +53,7 @@ const StatsPage: NextPage<StatsPageProps> = ({ repository }) => {
           .toString()
           .split(",")
           .filter((x) => x)
-      : ["openIssues"]
+      : ["openIssues", "allCommits"]
   )
 
   useEffect(() => {
@@ -77,7 +79,7 @@ const StatsPage: NextPage<StatsPageProps> = ({ repository }) => {
   const getChart = (queryStatus: string) => {
     switch (queryStatus) {
       case "error":
-        return <p className={styles.error}>{queryError?.message}</p>
+        return <p className="error">{queryError?.message}</p>
       case "loading":
         return (
           <div className={styles.loader}>
@@ -145,22 +147,29 @@ interface StatsPageParams extends ParsedUrlQuery {
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { owner, repo } = params as StatsPageParams
-  const octokit = new Octokit()
-  const {
-    data: {
+  let repository: Repository
+  try {
+    const octokit = new Octokit({ retry: { enabled: false }, throttle: { enabled: false } })
+    const {
+      data: {
+        id,
+        description,
+        owner: { avatar_url: avatarUrl },
+      },
+    } = await octokit.rest.repos.get({ owner, repo })
+    repository = {
+      avatarUrl,
+      description: description || "No description.",
       id,
-      description,
-      owner: { avatar_url: avatarUrl },
-    },
-  } = await octokit.rest.repos.get({
-    owner,
-    repo,
-  })
-  const repository: Repository = {
-    avatarUrl,
-    description: description || "No description.",
-    id,
-    name: `${owner}/${repo}`,
+      name: `${owner}/${repo}`,
+    }
+  } catch (err: any) {
+    repository = {
+      avatarUrl: "/images/github.svg",
+      description: "I cannot load the description :(",
+      id: +new Date(),
+      name: `${owner}/${repo}`,
+    }
   }
   return { props: { repository } }
 }

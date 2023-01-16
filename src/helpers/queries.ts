@@ -21,11 +21,16 @@ export const searchAsync = async ({ query, page }: { query: string; page?: numbe
   const url = `/api/search?${QueryString.stringify(qsp)}`
   try {
     const res = await getAsync(url)
+    let resBody
     if (!res.ok) {
-      console.error(`Response is not ok, status code ${res.status}`)
-      return Promise.reject(new GenericQueryError())
+      try {
+        resBody = await res.json()
+        return Promise.reject(new GenericQueryError(resBody.message ? `Error: ${resBody.message}` : undefined))
+      } catch (err: any) {
+        return Promise.reject(new GenericQueryError())
+      }
     }
-    const resBody = await res.json()
+    resBody = await res.json()
     return Promise.resolve(resBody)
   } catch (err: any) {
     return Promise.reject(new GenericQueryError(err.message))
@@ -41,11 +46,16 @@ export const statsAsync = async ({ owner, repo }: { owner: string; repo: string 
   const url = `/api/stats?${QueryString.stringify(qsp)}`
   try {
     const res = await getAsync(url)
+    let resBody
     if (!res.ok) {
-      console.error(`Response is not ok, status code ${res.status}`)
-      return Promise.reject(new GenericQueryError())
+      try {
+        resBody = await res.json()
+        return Promise.reject(new GenericQueryError(resBody.message ? `Error: ${resBody.message}` : undefined))
+      } catch (err: any) {
+        return Promise.reject(new GenericQueryError())
+      }
     }
-    const resBody = await res.json()
+    resBody = await res.json()
     return Promise.resolve(resBody)
   } catch (err: any) {
     return Promise.reject(new GenericQueryError(err.message))

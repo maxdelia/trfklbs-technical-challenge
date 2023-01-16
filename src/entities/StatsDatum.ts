@@ -1,5 +1,6 @@
 export default interface StatsDatum {
   date: string
-  collaborators: number
+  allCommits: number
+  ownerCommits: number
   openIssues: number
 }

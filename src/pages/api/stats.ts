@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import { format, subWeeks } from "date-fns"
+import { Octokit } from "octokit"
+import { format, isAfter, isBefore, subWeeks } from "date-fns"
 
-import { getAsync } from "@/helpers/network"
 import StatsDatum from "@/entities/StatsDatum"
 
 export type SearchError = {
@@ -24,19 +24,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       res.status(400).json({ message: "Invalid query parameter", parameter: "repo" })
       return
     }
-    const collaboratorsRes = await getAsync(`https://api.github.com/repos/${owner}/${repo}/stats/participation`)
-    const collaboratorsResBody = await collaboratorsRes.json()
-    if (!collaboratorsRes.ok) {
-      res.status(collaboratorsRes.status).json({ message: collaboratorsRes.message })
-    }
+    const octokit = new Octokit({ retry: { enabled: false }, throttle: { enabled: false } })
+    const results = await Promise.all([
+      octokit.request(`GET /repos/${owner}/${repo}/issues`, { per_page: 100 }),
+      octokit.request(`GET /repos/${owner}/${repo}/stats/participation`),
+    ])
+    const { data: openIssues } = results[0]
+    const {
+      data: { all: allCommits, owner: ownerCommits },
+    } = results[1]
     const now = new Date()
-    const items: StatsDatum[] = collaboratorsResBody.all
-      .slice(0, 8)
-      .map((value: number, index: number) => ({
-        date: format(subWeeks(now, index), "yyyy-MM-dd"),
-        collaborators: value,
-        openIssues: 0,
-      }))
+    const weeks = 10
+    const allCommitsPartial = allCommits.slice(0, weeks)
+    const ownerCommitsPartial = ownerCommits.slice(0, weeks)
+    const items: StatsDatum[] = allCommitsPartial
+      .map((value: number, index: number) => {
+        return {
+          date: format(subWeeks(now, index), "yy-MM-dd"),
+          allCommits: value,
+          ownerCommits: ownerCommitsPartial[index],
+          openIssues: openIssues.filter(({ created_at }: { created_at: string }) => {
+            const lowest = subWeeks(now, index + 1)
+            const highest = subWeeks(now, index)
+            return isAfter(new Date(created_at), lowest) && isBefore(new Date(created_at), highest)
+          }).length,
+        }
+      })
       .reverse()
     res.status(200).json({ items })
   } catch (err: any) {

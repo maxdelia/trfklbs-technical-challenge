@@ -47,8 +47,8 @@
 
     .loader {
       position: absolute;
-      top: 50%;
-      right: 50%;
+      top: calc(50% - 2rem);
+      right: calc(50% - 2rem);
     }
   }
 }

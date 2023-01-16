@@ -50,7 +50,7 @@ const Search: FunctionComponent = () => {
   const getResults = (queryStatus: string) => {
     switch (queryStatus) {
       case "error":
-        return <p className={styles.error}>{queryError?.message}</p>
+        return <p className="error">{queryError?.message}</p>
       case "loading":
         return Array.from(Array(repositories.length || 3).keys()).map((id) =>
           mapRepository(true, { avatarUrl: "", description: "", id, name: "" })

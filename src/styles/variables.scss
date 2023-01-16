@@ -22,6 +22,7 @@
   --pink-rgb: 255, 204, 182;
   --primary-rgb: 103, 134, 211;
   --primary-dark-rgb: 72, 103, 180;
+  --purple-rgb: 200, 160, 255;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -43,5 +44,6 @@
     --pink-rgb: 255, 204, 182;
     --primary-rgb: 103, 134, 211;
     --primary-dark-rgb: 72, 103, 180;
+    --purple-rgb: 200, 160, 255;
   }
 }
