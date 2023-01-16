@@ -41,8 +41,15 @@
   .chart {
     height: 32.875rem;
     padding: 5.375em 6em;
+    position: relative;
     border: 1px solid rgba(var(--border-rgb));
     border-radius: 1rem;
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      right: 50%;
+    }
   }
 }
 

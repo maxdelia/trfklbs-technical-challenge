@@ -12,6 +12,7 @@ import { useRouter } from "next/router"
 import BigChip from "@/components/BigChip"
 import CommonHead from "@/components/CommonHead"
 import Layout from "@/components/Layout"
+import Loader from "@/components/Loader"
 import Repository from "@/entities/Repository"
 import StatsDatum from "@/entities/StatsDatum"
 import styles from "./stats.module.scss"
@@ -73,6 +74,31 @@ const StatsPage: NextPage<StatsPageProps> = ({ repository }) => {
     ))
   }
 
+  const getChart = (queryStatus: string) => {
+    switch (queryStatus) {
+      case "error":
+        return <p className={styles.error}>{queryError?.message}</p>
+      case "loading":
+        return (
+          <div className={styles.loader}>
+            <Loader />
+          </div>
+        )
+      default:
+        return (
+          <ResponsiveContainer>
+            <LineChart data={chartData}>
+              {getChartLines()}
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+            </LineChart>
+          </ResponsiveContainer>
+        )
+    }
+  }
+
   return (
     <>
       <CommonHead />
@@ -105,17 +131,7 @@ const StatsPage: NextPage<StatsPageProps> = ({ repository }) => {
               />
             ))}
           </div>
-          <div className={styles.chart}>
-            <ResponsiveContainer>
-              <LineChart data={chartData}>
-                {getChartLines()}
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <div className={styles.chart}>{getChart(queryStatus)}</div>
         </div>
       </Layout>
     </>
