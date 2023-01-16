@@ -30,6 +30,14 @@
     font-weight: 400;
   }
 
+  .chartOptions {
+    margin-bottom: 1.125rem;
+
+    button:not(:last-child) {
+      margin-right: 0.875rem;
+    }
+  }
+
   .chart {
     height: 32.875rem;
     padding: 5.375rem 6rem;
